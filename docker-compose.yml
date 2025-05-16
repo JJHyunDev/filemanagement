@@ -1,0 +1,23 @@
+version: '3.8'
+
+services:
+  file-management-app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: file-management-app
+    ports:
+      - "8080:8080"
+    environment:
+      - SPRING_PROFILES_ACTIVE=default
+      - DB_HOST=
+      - DB_PORT=5432
+      - DB_NAME=postgres
+      - DB_USERNAME=postgres
+      - DB_PASSWORD=
+      - AWS_ACCESS_KEY=
+      - AWS_SECRET_KEY=
+      - AWS_REGION=ap-northeast-2
+      - AWS_S3_BUCKET=
+      - AWS_S3_BASE_URL=
+    restart: always
