@@ -28,6 +28,9 @@ jobs:
       - name: Build Docker image
         run: docker build -t file-management-register:latest .
 
+      - name: List Docker images
+        run: docker images
+
       - name: Set environment variables
         run: |
           echo "ECR_REGISTRY=${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ vars.AWS_REGION }}.amazonaws.com" >> $GITHUB_ENV
