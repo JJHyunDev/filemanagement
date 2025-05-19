@@ -57,9 +57,43 @@ jobs:
         run: |
           docker push ${{ env.ECR_REGISTRY }}/${{ env.ECR_REPOSITORY }}:${{ env.IMAGE_TAG }}
           docker push ${{ env.ECR_REGISTRY }}/${{ env.ECR_REPOSITORY }}:latest
-          
+
+#      - name: Download task definition
+#        run: |
+#          aws ecs describe-task-definition --task-definition filemanagement-app-2 \\
+#          --query taskDefinition > task-definition.json
+#
+#      - name: Update task definition with new image
+#        id: render-task-def
+#        uses: aws-actions/amazon-ecr-render-task-definition@v1
+#        with:
+#          task-definition: task-definition.json
+#          container_name: app
+#          image: ${{ env.ECR_REGISTRY }}/${{ env.ECR_REPOSITORY }}:${{ env.IMAGE_TAG }}
+#          environment-variables: "SPRING_PROFILES_ACTIVE=dev;HELLO=world"
+#
+#      - name: Deploy to Amazon ECS
+#        uses: aws-actions/amazon-ecs-deploy-task-definition@v1
+#        with:
+#          task-definition: ${{ steps.render-task-def.outputs.task-definition }}
+#          service: my-app
+#          cluster: file-management-cluster
+#          wait-for-service-stability: true
+#
+#      - name: Verify deployment
+#        run: |
+#          echo "Verifying deployment..."
+#          SERVICE_STATUS=$(aws ecs describe-services --cluster file-management-cluster --services file-management-service --query 'services[0].status' --output text)
+#
+#          if [ "$SERVICE_STATUS" = "ACTIVE" ]; then
+#            echo "Deployment successful! Service is active."
+#          else
+#            echo "Deployment may have issues. Service status: $SERVICE_STATUS"
+#            exit 1
+#          fi
+
 
       - name: Test AWS CLI
-        run:
+        run: |
           aws sts get-caller-identity
           aws ecr describe-repositories
