@@ -26,7 +26,7 @@ jobs:
         run: ./gradlew test
 
       - name: Build Docker image
-        run: docker build -t file-management-register:latest .
+        run: docker buildx build --load -t file-management-register:latest .
 
       - name: List Docker images
         run: docker images
